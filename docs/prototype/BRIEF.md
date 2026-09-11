@@ -69,7 +69,7 @@ Semua angka di bawah adalah asumsi demo dan disimpan di `config/demo.php` agar m
 
 ## Data demo
 
-- **Kantor dan pengguna:** kantor Pusat (kode 00) dan Cabang 01–09, serta pengguna per peran, sudah dibuat seeder M0. Kata sandi seragam dari `DEMO_PASSWORD`.
+- **Kantor dan pengguna:** kantor Pusat (kode 00) dan Cabang 01–09, serta pengguna per peran, sudah dibuat seeder M0. Kata sandi per pengguna ditulis di `database/seeders/UserSeeder.php` dengan pola `{bagian email sebelum @}-ksp` (mis. `cs03-ksp`).
 - **Anggota (mockup):** 60–120 per cabang dengan nama dan alamat Indonesia yang realistis dan NIK 16 digit fiktif. Data dibuat deterministik (Faker `id_ID` dengan seed tetap), sehingga sama di setiap pemuatan halaman.
 - **Pinjaman (mockup):** sekitar 40% anggota punya pinjaman aktif. Sebaran kolektibilitas kira-kira 85% lancar, 8% kurang lancar, 4% diragukan, 3% macet. Cabang 05 dibuat lebih buruk agar dashboard punya cerita.
 - **Histori transaksi (mockup):** 6 bulan terakhir. Ringkasan dashboard dan laporan dihitung dari data contoh yang sama.

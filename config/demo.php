@@ -14,8 +14,6 @@ return [
 
     'enabled' => (bool) env('APP_DEMO', false),
 
-    'password' => env('DEMO_PASSWORD', 'password'),
-
     /*
     |--------------------------------------------------------------------------
     | Kantor demo

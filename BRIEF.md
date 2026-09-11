@@ -59,7 +59,7 @@ Semua angka di bawah adalah asumsi demo dan disimpan di seeder atau `config/demo
 ## Data demo
 
 - Kantor: Pusat (kode 00) dan Cabang 01–09. Nama cabang disimpan di `config/demo.php`.
-- Pengguna: satu per peran di pusat. Setiap cabang punya kepala cabang, CS, teller, analis kredit, dan admin. Kata sandi seragam dari `DEMO_PASSWORD` di `.env`.
+- Pengguna: satu per peran di pusat. Setiap cabang punya kepala cabang, CS, teller, analis kredit, dan admin. Kata sandi per pengguna ditulis di `database/seeders/UserSeeder.php`.
 - Anggota: 60–120 per cabang dengan nama dan alamat Indonesia yang realistis (Faker `id_ID`) dan NIK 16 digit fiktif.
 - Pinjaman: sekitar 40% anggota punya pinjaman aktif. Sebaran kolektibilitas kira-kira 85% lancar, 8% kurang lancar, 4% diragukan, 3% macet. Cabang 05 dibuat lebih buruk agar dashboard punya cerita.
 - Histori transaksi 6 bulan terakhir (setoran, angsuran, pencairan) dibuat melalui service agar jurnal dan saldo konsisten, dan berakhir di tanggal buku hari ini.

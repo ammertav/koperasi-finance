@@ -36,7 +36,7 @@ paths:
 
 ### Seeder
 - Kelas `{Name}Seeder`: data referensi di `database/seeders/`, skenario demo di `database/seeders/Demo/`. Data referensi berupa array literal yang disimpan idempoten: `Account::updateOrCreate(['code' => $account['code']], $account);`
-- Akun awal memakai `firstOrCreate(['email' => '...'], ['name' => '...', 'password' => bcrypt(env('DEMO_PASSWORD'))])`.
+- Akun demo memakai `updateOrCreate(['email' => '...'], [...])`, dengan kata sandi per pengguna dari konstanta `PASSWORDS` di `UserSeeder` (bukan `.env`).
 - FK dicari lewat kode, bukan ID hardcode: `'office_id' => Office::where('code', '07')->value('id')`.
 - `DatabaseSeeder` memanggil semua seeder sesuai urutan dependensi. Seeder baru dari tiap milestone disisipkan di posisinya:
 ```php

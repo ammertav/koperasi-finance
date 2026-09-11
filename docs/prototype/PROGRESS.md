@@ -52,6 +52,7 @@ Keputusan yang diambil saat PRD ambigu. Format: tanggal — keputusan — alasan
 - 2026-09-11 — Jurnal mockup rinci hanya 30 hari terakhir (`demo.cash.detail_days`). Sebelumnya diringkas jadi saldo awal per kantor yang dihitung dari simpanan, pinjaman, pendapatan jasa, dan beban contoh. RAK 1.9.00 menjadi penyeimbang buku cabang, SHU Tahun Lalu penyeimbang buku pusat. Kas teller contoh dimulai dan diakhiri nol setiap hari lewat jurnal brankas. Filter tanggal dibatasi ke periode rinci; daftar jurnal default 7 hari terakhir — AKT-05, RAK-06.
 - 2026-09-11 — Mutasi rekening contoh 6 bulan dibangun mundur dari saldo agar saldo akhir cocok. Tidak ada transaksi contoh pada tanggal buku aktif, jadi hari demo dimulai dari buka sesi kas — SIM-15.
 - 2026-09-11 — Pencocokan buku pembantu (SP, SW, SS, PUM, PUS) tampil di neraca saldo mockup hanya bila tanggal akhir = tanggal buku — AKT-08.
+- 2026-09-11 — Kata sandi demo tidak lagi dari `DEMO_PASSWORD` di `.env`. Setiap pengguna punya kata sandi sendiri di konstanta `UserSeeder::PASSWORDS` (pola `{bagian email sebelum @}-ksp`). Seeder memakai `updateOrCreate`, jadi `php artisan db:seed --class=UserSeeder` mengembalikan kata sandi tanpa `migrate:fresh` — setup di laptop lain gagal login — keputusan Andreas.
 
 ## Deviasi dari PRD
 
