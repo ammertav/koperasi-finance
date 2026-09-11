@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="240" height="80" viewBox="0 0 240 80">
+  <rect x="0" y="8" width="64" height="64" rx="16" fill="#0369a1"/>
+  <path d="M16 56V30l16-10 16 10v26H38V42H26v14z" fill="#ffffff"/>
+  <text x="76" y="38" font-family="Poppins, Arial, Helvetica, sans-serif" font-size="24" font-weight="700" fill="#0c4a6e">KSP</text>
+  <text x="76" y="62" font-family="Poppins, Arial, Helvetica, sans-serif" font-size="15" fill="#475569">Multi Cabang</text>
+</svg>
