@@ -51,7 +51,7 @@ class LoanMockup
      */
     public static function forMember(array $member): array
     {
-        if ($member['status'] !== 'active') {
+        if ($member['status'] !== 'active' || $member['activated_in_demo']) {
             return [];
         }
 

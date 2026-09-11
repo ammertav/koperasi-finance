@@ -217,6 +217,31 @@ class MemberMockup
     }
 
     /**
+     * Aktivasi setelah setoran simpanan pokok di teller (AGT-03): nomor anggota terbit melanjutkan urutan kantor.
+     *
+     * @param  array<string, mixed>  $member
+     * @return array<string, mixed>
+     */
+    public static function activate(array $member, User $user): array
+    {
+        $sequences = collect(self::all())
+            ->filter(fn (array $other) => $other['office_id'] === $member['office_id'] && $other['number'] !== null)
+            ->map(fn (array $other) => (int) substr($other['number'], 3));
+
+        $number = $member['office_code'].'.'.str_pad((string) ($sequences->max() + 1), 6, '0', STR_PAD_LEFT);
+        $key = self::SESSION_DECISIONS.'.'.$member['id'];
+
+        session()->put($key, array_merge(session($key, []), [
+            'status' => 'active',
+            'number' => $number,
+            'activation_date' => $user->office->book_date->toDateString(),
+            'activated_in_demo' => true,
+        ]));
+
+        return self::find($user, $member['id']);
+    }
+
+    /**
      * Riwayat keanggotaan terbaru lebih dulu.
      *
      * @param  array<int, array<string, mixed>>  $loans
@@ -419,6 +444,7 @@ class MemberMockup
             $member[$field] = $member[$field] === null ? null : Carbon::parse($member[$field]);
         }
 
+        $member['activated_in_demo'] ??= false;
         $member['status_label'] = self::STATUSES[$member['status']];
         $member['gender_label'] = self::GENDERS[$member['gender']];
         $member['nik_masked'] = self::maskNik($member['nik']);

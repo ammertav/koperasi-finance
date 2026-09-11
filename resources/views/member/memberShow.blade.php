@@ -52,6 +52,9 @@
                 </div>
                 <div class="flex flex-wrap gap-2">
                     <x-button :href="route('member')" variant="secondary" icon="arrow-left">Kembali</x-button>
+                    @if ($member['status'] === 'approved' && auth()->user()->hasAccess('savings', 'operate'))
+                        <x-button :href="route('memberActivation')" variant="success" icon="money-bill-wave">Terima Setoran Pokok</x-button>
+                    @endif
                     @if ($canApprove)
                         <x-button id="rejectBtn" variant="danger" icon="times">Tolak</x-button>
                         <x-button id="approveBtn" variant="success" icon="check">Setujui</x-button>

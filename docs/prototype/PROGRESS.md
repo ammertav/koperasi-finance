@@ -11,7 +11,7 @@ Mode prototype tampilan sejak 11 Sep 2026. Penomoran milestone mengikuti BRIEF b
 | 0 | Fondasi (nyata) | Selesai (11 Sep 2026) |
 | 1 | Mesin akuntansi (nyata) | Selesai (11 Sep 2026) |
 | 2 | Keanggotaan (mockup) | Selesai (11 Sep 2026) |
-| 3 | Simpanan dan kas (mockup) | Belum mulai |
+| 3 | Simpanan dan kas (mockup) | Selesai (11 Sep 2026) |
 | 4 | Pinjaman (mockup) | Belum mulai |
 | 5 | Tutup kas dan tutup hari (mockup) | Belum mulai |
 | 6 | Dashboard dan laporan (mockup) | Belum mulai |
@@ -45,6 +45,13 @@ Keputusan yang diambil saat PRD ambigu. Format: tanggal — keputusan — alasan
 - 2026-09-11 — Calon anggota baru dan keputusan KCB disimpan di session (`demo.member_candidates`, `demo.member_decisions`) dan hilang saat logout; pengalih peran tidak menghapusnya — AGT-01, ATR-05.
 - 2026-09-11 — Cek NIK mengabaikan pendaftaran berstatus ditolak, jadi NIK itu boleh didaftarkan ulang. Hasil cek hanya menampilkan nama, NIK tersamar, kantor asal, status keanggotaan, dan jumlah pinjaman berjalan beserta kolektibilitas, tanpa saldo — AGT-02, PRD 5.2.
 - 2026-09-11 — Aktivasi anggota (setoran pokok di teller, nomor anggota terbit, rekening SP/SW dibuka) ditunjukkan di M3; M2 berhenti di status `approved` — AGT-03, OQ-15.
+- 2026-09-11 — Aktivasi di teller: setoran pokok Rp100.000 diterima, nomor anggota melanjutkan urutan kantor, rekening SP dan SW dibuka (SW saldo nol). Anggota yang diaktifkan saat demo tidak punya pinjaman — AGT-03, SIM-02, OQ-15.
+- 2026-09-11 — Produk simpanan (asumsi, `config/demo.php`): SP hanya disetor saat aktivasi, SW kelipatan Rp50.000, SS setoran minimal Rp10.000, saldo minimal Rp25.000, jasa 3% per tahun — SIM-01, OQ-19.
+- 2026-09-11 — Penarikan SS: teller langsung sampai Rp5.000.000 (`demo.savings.teller_withdrawal_limit`). Di atasnya otorisasi KCB sampai Rp50.000.000, lalu MGR. Otorisasi dicek lewat `AuthorityService` dan teller tidak boleh mengotorisasi transaksinya sendiri. Jurnal terbentuk setelah diotorisasi — SIM-05, OQ-14.
+- 2026-09-11 — Sesi kas: saldo awal dihitung per pecahan (isian awal Rp20.000.000) dan langsung dikonfirmasi KCB sebagai pemegang brankas. Perpindahan kas lain menunggu konfirmasi KCB atau ADC di kantor yang sama, bukan pengaju. Setor/tarik ditolak bila sesi belum dibuka atau kas teller kurang — KAS-01, KAS-02, OQ-35.
+- 2026-09-11 — Jurnal mockup rinci hanya 30 hari terakhir (`demo.cash.detail_days`). Sebelumnya diringkas jadi saldo awal per kantor yang dihitung dari simpanan, pinjaman, pendapatan jasa, dan beban contoh. RAK 1.9.00 menjadi penyeimbang buku cabang, SHU Tahun Lalu penyeimbang buku pusat. Kas teller contoh dimulai dan diakhiri nol setiap hari lewat jurnal brankas. Filter tanggal dibatasi ke periode rinci; daftar jurnal default 7 hari terakhir — AKT-05, RAK-06.
+- 2026-09-11 — Mutasi rekening contoh 6 bulan dibangun mundur dari saldo agar saldo akhir cocok. Tidak ada transaksi contoh pada tanggal buku aktif, jadi hari demo dimulai dari buka sesi kas — SIM-15.
+- 2026-09-11 — Pencocokan buku pembantu (SP, SW, SS, PUM, PUS) tampil di neraca saldo mockup hanya bila tanggal akhir = tanggal buku — AKT-08.
 
 ## Deviasi dari PRD
 
@@ -60,6 +67,10 @@ Keputusan yang diambil saat PRD ambigu. Format: tanggal — keputusan — alasan
 - AGT-01: foto KTP wajib dipilih dan divalidasi tetapi tidak disimpan (mockup); foto diri tidak diminta; satu ahli waris.
 - AGT-05: data anggota tidak bisa diubah setelah didaftarkan (di luar cakupan BRIEF).
 - NFR-06: NIK disamarkan di daftar anggota dan hasil cek lintas cabang; NIK lengkap tampil di profil.
+- SIM-04, pembukaan rekening sukarela baru, dan simpanan berjangka tidak dibuat. SIM-15: mutasi hanya dicetak HTML, tanpa unduh.
+- KAS-03: batas maksimum saldo teller tidak dibuat.
+- KAS-11: mutasi kas harian tampil per sesi teller untuk tanggal buku aktif saja, tanpa pilihan tanggal lampau.
+- AKT-05 mockup: saldo pinjaman belum bergerak di jurnal rinci karena angsuran menyusul di M4.
 
 ## Usulan perubahan PRD
 
@@ -68,16 +79,14 @@ Keputusan yang diambil saat PRD ambigu. Format: tanggal — keputusan — alasan
 ## Sesi terakhir
 
 - Tanggal: 11 Sep 2026
-- Selesai:
-  - Pindah mode ke prototype tampilan. CLAUDE.md dan BRIEF.md diperbarui, panduan full MVC disimpan di `docs/prototype/FULL-MVC.md`.
-  - Milestone 2 — Keanggotaan (mockup):
-    - Data contoh `app/Mockups/MemberMockup`, `SavingsMockup`, `LoanMockup`.
-    - `Member\MemberController`, 7 route `member*`, menu Keanggotaan di sidebar.
-    - Halaman Data Anggota (KPI, filter status), Registrasi Anggota (cek NIK lintas cabang saat kolom ditinggalkan, pratinjau KTP, persetujuan data pribadi), Profil Anggota (tab Data Diri, Simpanan, Pinjaman, Jaminan, Riwayat), persetujuan dan penolakan KCB dengan cek pendaftar ≠ penyetuju.
-- Verifikasi: `view:cache` berhasil, 7 route terdaftar, render index/create/show sebagai CS 03 berhasil, cek NIK skenario menahan pendaftaran. 92 test lulus (routes dan sidebar berubah).
+- Selesai: Milestone 3 — Simpanan dan kas (mockup).
+  - Data contoh: `SavingsMockup` (produk, mutasi 6 bulan, transaksi session), `CashMockup` (pecahan, sesi, perpindahan, posisi kas), `AccountingMockup` (saldo awal, jurnal, buku besar, neraca saldo, pencocokan buku pembantu). `MemberMockup::activate()` ditambahkan.
+  - Controller `Savings\{SavingsProduct, SavingsAccount, SavingsTransaction, MemberActivation}`, `Cash\{CashSession, CashTransfer, CashPosition}`, `Accounting\{JournalMockup, GeneralLedgerMockup, TrialBalanceMockup}`; 25 route baru.
+  - Sidebar: menu Simpanan dan Kas; menu Akuntansi Jurnal/Buku Besar/Neraca Saldo diarahkan ke versi mockup. Profil anggota `approved` punya tombol Terima Setoran Pokok.
+  - Layar: produk simpanan, rekening dan mutasi (cetak HTML), setor/tarik dengan cari rekening dan pratinjau jurnal (JS), bukti transaksi (cetak), otorisasi penarikan, aktivasi anggota, buka sesi kas per pecahan (JS), mutasi kas teller, brankas dan perpindahan kas dengan konfirmasi, posisi kas semua kantor dengan grafik, jurnal/buku besar/neraca saldo mockup.
+- Verifikasi: tinker memastikan setiap kantor seimbang, RAK konsolidasi nol, buku pembantu cocok, dan saldo akhir semua mutasi = saldo rekening. Alur HTTP TLR03 → KCB03 → KAK berjalan (buka sesi, aktivasi 30105, setor SW, tarik SP ditolak, tarik SS Rp8.000.000 menunggu lalu diotorisasi KCB, perpindahan kas dikonfirmasi, neraca saldo tetap seimbang dan cocok). `view:cache` berhasil, 92 test lulus (routes dan sidebar berubah).
 - Catatan:
   - Jalankan `npm run build` untuk kelas Tailwind baru.
-  - Data mockup memakai Faker (dependensi dev).
-  - Daftar anggota untuk peran pusat merender sekitar 740 baris di DataTables.
-  - Babak 1 "Teller membuka sesi kas" menyusul di M3.
-- Berikutnya: Milestone 3 — Simpanan dan kas (mockup), termasuk aktivasi anggota lewat setoran pokok serta jurnal, buku besar, dan neraca saldo versi mockup. Buat rencana singkat dan tunggu persetujuan.
+  - Halaman konsolidasi (neraca saldo, jurnal, posisi kas) butuh sekitar 2 detik karena data contoh dihitung ulang setiap request. Pertimbangkan cache per request atau bekukan data bila terasa lambat saat demo.
+  - Pesan validasi masih berjudul "Validation Error" (NFR-10).
+- Berikutnya: Milestone 4 — Pinjaman (mockup), termasuk angsuran yang bergerak di jurnal mockup. Buat rencana singkat dan tunggu persetujuan.

@@ -104,11 +104,39 @@ return [
     'savings' => [
         'principal' => 100000,
         'mandatory_monthly' => 50000,
+        'voluntary_minimum_deposit' => 10000,
+        'voluntary_minimum_balance' => 25000,
+        'voluntary_annual_rate' => 3,
+        // Penarikan di atas batas ini menunggu otorisasi (SIM-05), lalu naik mengikuti matriks wewenang.
+        'teller_withdrawal_limit' => 5000000,
+        'history_months' => 6,
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Kas teller dan brankas (M05)
+    |--------------------------------------------------------------------------
+    |
+    | Jurnal rinci mockup mencakup detail_days hari terakhir; transaksi sebelumnya
+    | diringkas menjadi saldo awal. Saldo brankas awal dalam juta rupiah.
+    |
+    */
+
+    'cash' => [
+        'teller_opening_balance' => 20000000,
+        'vault_opening_millions' => [120, 250],
+        'detail_days' => 30,
+        'head_office_reserve' => 500000000,
     ],
 
     'loan_products' => [
         'PUM' => ['name' => 'Pinjaman Umum', 'interest_method' => 'flat', 'annual_rate' => 18, 'min_tenor' => 6, 'max_tenor' => 36],
         'PUS' => ['name' => 'Pinjaman Usaha', 'interest_method' => 'annuity', 'annual_rate' => 18, 'min_tenor' => 12, 'max_tenor' => 60],
+    ],
+
+    'loan_fees' => [
+        'provision_rate' => 1,
+        'admin_fee' => 50000,
     ],
 
     'data_consent_text' => 'Saya menyetujui koperasi mengumpulkan, menyimpan, dan memproses data pribadi saya untuk keperluan keanggotaan dan layanan simpan pinjam, sesuai UU No. 27 Tahun 2022 tentang Pelindungan Data Pribadi.',

@@ -115,6 +115,100 @@
                     @endif
                 @endif
 
+                @if (auth()->user()->hasAccess('savings'))
+                    <!-- Savings -->
+                    <li class="p-4 mx-2">
+                        <div class="flex space-x-4">
+                            <div class="bg-sky-600 p-2 rounded-xl">
+                                <i class="material-icons text-white">savings</i>
+                            </div>
+                            <div class="my-auto">
+                                <h1 class="text-black text-base font-normal">
+                                    Simpanan
+                                </h1>
+                            </div>
+                        </div>
+                    </li>
+
+                    <hr class="mx-5 shadow-2xl text-gray-100 rounded-xl" />
+
+                    <li class="p-4 mx-2 ml-16 md:ml-14">
+                        <a href="{{ route('savingsProduct') }}">
+                            <h1 class="text-gray-500 hover:text-black text-base font-normal">
+                                Produk Simpanan
+                            </h1>
+                        </a>
+                    </li>
+
+                    <li class="p-4 mx-2 ml-16 md:ml-14">
+                        <a href="{{ route('savingsAccount') }}">
+                            <h1 class="text-gray-500 hover:text-black text-base font-normal">
+                                Rekening Simpanan
+                            </h1>
+                        </a>
+                    </li>
+
+                    <li class="p-4 mx-2 ml-16 md:ml-14">
+                        <a href="{{ route('savingsTransaction') }}">
+                            <h1 class="text-gray-500 hover:text-black text-base font-normal">
+                                Setor & Tarik
+                            </h1>
+                        </a>
+                    </li>
+
+                    @if (auth()->user()->hasAccess('savings', 'operate'))
+                        <li class="p-4 mx-2 ml-16 md:ml-14">
+                            <a href="{{ route('memberActivation') }}">
+                                <h1 class="text-gray-500 hover:text-black text-base font-normal">
+                                    Aktivasi Anggota
+                                </h1>
+                            </a>
+                        </li>
+                    @endif
+                @endif
+
+                @if (auth()->user()->hasAccess('cash'))
+                    <!-- Cash -->
+                    <li class="p-4 mx-2">
+                        <div class="flex space-x-4">
+                            <div class="bg-sky-600 p-2 rounded-xl">
+                                <i class="material-icons text-white">payments</i>
+                            </div>
+                            <div class="my-auto">
+                                <h1 class="text-black text-base font-normal">
+                                    Kas
+                                </h1>
+                            </div>
+                        </div>
+                    </li>
+
+                    <hr class="mx-5 shadow-2xl text-gray-100 rounded-xl" />
+
+                    <li class="p-4 mx-2 ml-16 md:ml-14">
+                        <a href="{{ route('cashSession') }}">
+                            <h1 class="text-gray-500 hover:text-black text-base font-normal">
+                                Sesi Kas Teller
+                            </h1>
+                        </a>
+                    </li>
+
+                    <li class="p-4 mx-2 ml-16 md:ml-14">
+                        <a href="{{ route('cashTransfer') }}">
+                            <h1 class="text-gray-500 hover:text-black text-base font-normal">
+                                Brankas & Perpindahan Kas
+                            </h1>
+                        </a>
+                    </li>
+
+                    <li class="p-4 mx-2 ml-16 md:ml-14">
+                        <a href="{{ route('cashPosition') }}">
+                            <h1 class="text-gray-500 hover:text-black text-base font-normal">
+                                Posisi Kas
+                            </h1>
+                        </a>
+                    </li>
+                @endif
+
                 @if (auth()->user()->hasAccess('accounting'))
                     <!-- Accounting -->
                     <li class="p-4 mx-2">
@@ -133,7 +227,7 @@
                     <hr class="mx-5 shadow-2xl text-gray-100 rounded-xl" />
 
                     <li class="p-4 mx-2 ml-16 md:ml-14">
-                        <a href="{{ route('journal') }}">
+                        <a href="{{ route('journalMockup') }}">
                             <h1 class="text-gray-500 hover:text-black text-base font-normal">
                                 Jurnal
                             </h1>
@@ -141,7 +235,7 @@
                     </li>
 
                     <li class="p-4 mx-2 ml-16 md:ml-14">
-                        <a href="{{ route('generalLedger') }}">
+                        <a href="{{ route('generalLedgerMockup') }}">
                             <h1 class="text-gray-500 hover:text-black text-base font-normal">
                                 Buku Besar
                             </h1>
@@ -149,7 +243,7 @@
                     </li>
 
                     <li class="p-4 mx-2 ml-16 md:ml-14">
-                        <a href="{{ route('trialBalance') }}">
+                        <a href="{{ route('trialBalanceMockup') }}">
                             <h1 class="text-gray-500 hover:text-black text-base font-normal">
                                 Neraca Saldo
                             </h1>
